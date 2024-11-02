@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         GOOS: ['linux', 'darwin', 'windows']
-        GOARCH: ['arm', 'amd64']
+        GOARCH: ['arm64', 'amd64']
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
