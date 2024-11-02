@@ -47,5 +47,8 @@ jobs:
           makeLatest: true
           name: ${{ steps.semver.outputs.next }}
           tag: ${{ steps.semver.outputs.next }}
-          body: Changelog Contents
+          body: |
+            Linux (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
+            Mac (arm): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
+            Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
           token: ${{ github.token }}
