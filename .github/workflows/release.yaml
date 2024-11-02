@@ -6,20 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  pre-release:
-    runs-on: gha-runner-scale-set
-
-    if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Get Next Version
-        id: semver
-        uses: ietf-tools/semver-action@v1
-        with:
-          token: ${{ github.token }}
-          branch: main
 
 
   build:
@@ -37,10 +23,22 @@ jobs:
           check-latest: 'true'
       - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
 
-  release:
     runs-on: gha-runner-scale-set
-    needs: [build, pre-release]
+
+  release:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
+    runs-on: gha-runner-scale-set
+    needs: [build]
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Next Version
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ github.token }}
+          branch: main
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
