@@ -21,6 +21,16 @@ jobs:
           token: ${{ github.token }}
           branch: main
 
+      - uses: actions/setup-go@v5
+      - run: go test
+      - run: go build main.go -o great-iterator
+      - uses: VAllens/gitea-publish-generic-packages@v1
+        with:
+          api_url: 'https://gitea.hnatekmar.xyz'
+          token: '${{ secrets.GITEA_TOKEN }}'
+          files: |-
+            great-iterator
+
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
