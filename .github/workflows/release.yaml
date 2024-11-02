@@ -11,12 +11,15 @@ jobs:
 
     if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v4
-      - name: Tag
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Next Version
+        id: semver
         uses: ietf-tools/semver-action@v1
         with:
-          branch: 'main'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
+          branch: main
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
