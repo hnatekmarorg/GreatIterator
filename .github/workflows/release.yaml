@@ -31,7 +31,7 @@ jobs:
 
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
-          api_url: 'https://gitea.hnatekmar.xyz/api/v1'
+          api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
           package_version: '${{ steps.semver.outputs.next }}'
           package_name: '${{ github.event.repository.name }}'
           token: '${{ secrets.GITEA_TOKEN }}'
