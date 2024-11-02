@@ -24,7 +24,6 @@ jobs:
 
   build:
     runs-on: gha-runner-scale-set
-    needs: pre-release
     strategy:
       matrix:
         GOOS: ['linux', 'darwin', 'windows']
@@ -40,13 +39,13 @@ jobs:
 
   release:
     runs-on: gha-runner-scale-set
-    needs: build
+    needs: [build, pre-release]
     steps:
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
           owner: 'martin'
-          package_version: '${{ steps.semver.outputs.next }}'
+          package_version: '${{ pre-release.steps.semver.outputs.next }}'
           package_name: '${{ github.event.repository.name }}'
           token: '${{ secrets.GITEA_TOKEN }}'
           files: |-
@@ -58,10 +57,13 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          name: ${{ steps.semver.outputs.next }}
-          tag: ${{ steps.semver.outputs.next }}
+          name: '${{ pre-release.steps.semver.outputs.next }}'
+          tag: '${{ pre-release.steps.semver.outputs.next }}'
           body: |
-            Linux (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
-            Mac (arm): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
-            Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{ steps.semver.outputs.next }}/great-iterator
+            Linux (arm64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@linux-arm64
+            Linux (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@linux-amd64
+            Mac (arm64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@darwin-arm64
+            Mac (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@darwin-amd64
+            Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-amd64
+            Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-amd64
           token: ${{ github.token }}
