@@ -36,7 +36,7 @@ jobs:
           package_name: '${{ github.event.repository.name }}-${{matrix.GOOS}}-${{matrix.GOARCH}}'
           token: '${{ secrets.GITEA_TOKEN }}'
           files: |-
-            great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}}
+            great-iterator-${{matrix.GOOS}}-${{matrix.GOARCH}}
 
   release:
     if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
