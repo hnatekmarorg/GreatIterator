@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  tag:
+  pre-release:
     runs-on: gha-runner-scale-set
 
     if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
@@ -26,9 +26,18 @@ jobs:
           go-version: '>=1.17.0'
           check-latest: 'true'
 
-      - run: go test
-      - run: go build -o great-iterator main.go
+  build:
+    needs: pre-release
+    strategy:
+      matrix:
+        GOOS: ['linux', 'darwin', 'windows']
+        GOARCH: ['arm', 'amd64']
+    steps:
+      - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
 
+  release:
+    needs: build
+    steps:
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
@@ -37,7 +46,7 @@ jobs:
           package_name: '${{ github.event.repository.name }}'
           token: '${{ secrets.GITEA_TOKEN }}'
           files: |-
-            great-iterator
+            great-iterator*
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
