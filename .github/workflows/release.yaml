@@ -34,7 +34,7 @@ jobs:
         GOOS: ['linux', 'darwin', 'windows']
         GOARCH: ['arm', 'amd64']
     steps:
-      - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
+      - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
 
   release:
     runs-on: gha-runner-scale-set
