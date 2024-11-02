@@ -67,6 +67,3 @@ jobs:
             Windows (arm64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-arm64
             Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-amd64
           token: ${{ github.token }}
-great-iterator@${{matrix:
-  GOOS}}-${{matrix:
-    GOARCH}}:
