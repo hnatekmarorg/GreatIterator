@@ -13,8 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Tag
-        uses: K-Phoen/semver-release-action@master
+        uses: ietf-tools/semver-action@v1
         with:
-          release_branch: master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'main'
+          token: ${{ secrets.GITHUB_TOKEN }}
