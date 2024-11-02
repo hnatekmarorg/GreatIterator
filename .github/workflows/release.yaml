@@ -33,10 +33,10 @@ jobs:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
           owner: 'martin'
           package_version: '${{ steps.semver.outputs.next }}'
-          package_name: '${{ github.event.repository.name }}'
+          package_name: '${{ github.event.repository.name }}-${{matrix.GOOS}}-${{matrix.GOARCH}}'
           token: '${{ secrets.GITEA_TOKEN }}'
           files: |-
-            great-iterator*
+            great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}}
 
   release:
     if: github.event_name == 'pull_request' && github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
@@ -67,3 +67,6 @@ jobs:
             Windows (arm64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-arm64
             Windows (x86_64): https://gitea.hnatekmar.xyz/api/packages/martin/generic/${{github.event.repository.name}}/${{steps.semver.outputs.next}}/great-iterator@windows-amd64
           token: ${{ github.token }}
+great-iterator@${{matrix:
+  GOOS}}-${{matrix:
+    GOARCH}}:
