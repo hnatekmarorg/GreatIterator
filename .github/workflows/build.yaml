@@ -11,8 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
       - run: go build main.go -o great-iterator
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
