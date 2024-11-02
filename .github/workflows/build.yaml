@@ -17,7 +17,7 @@ jobs:
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
           api_url: 'https://gitea.hnatekmar.xyz'
-          token: '${{ secrets.GITEA_TOKEN }}''
+          token: '${{ secrets.GITEA_TOKEN }}'
           files: |- 
             great-iterator
 
