@@ -27,6 +27,7 @@ jobs:
           check-latest: 'true'
 
   build:
+    runs-on: gha-runner-scale-set
     needs: pre-release
     strategy:
       matrix:
@@ -36,6 +37,7 @@ jobs:
       - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
 
   release:
+    runs-on: gha-runner-scale-set
     needs: build
     steps:
       - uses: VAllens/gitea-publish-generic-packages@v1
