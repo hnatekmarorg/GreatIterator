@@ -27,7 +27,7 @@ jobs:
         with:
           go-version: '>=1.17.0'
           check-latest: 'true'
-      - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOARCH}} go build -o great-iterator@${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
+      - run: GOOS=${{matrix.GOOS}} GOARCH=${{matrix.GOARCH}} go build -o great-iterator-${{matrix.GOOS}}-${{matrix.GOARCH}} main.go
       - uses: VAllens/gitea-publish-generic-packages@v1
         with:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
