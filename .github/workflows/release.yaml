@@ -9,8 +9,6 @@ jobs:
   build:
     runs-on: gha-runner-scale-set
 
-    if: github.event.pull_request.merged
-
     steps:
       - uses: actions/checkout@v4
       - name: Tag
