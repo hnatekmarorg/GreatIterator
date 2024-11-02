@@ -33,7 +33,7 @@ jobs:
           api_url: 'https://gitea.hnatekmar.xyz/api/v1/'
           owner: 'martin'
           package_version: '${{ steps.semver.outputs.next }}'
-          package_name: '${{ github.event.repository.name }}-${{matrix.GOOS}}-${{matrix.GOARCH}}'
+          package_name: '${{ github.event.repository.name }}'
           token: '${{ secrets.GITEA_TOKEN }}'
           files: |-
             great-iterator-${{matrix.GOOS}}-${{matrix.GOARCH}}
