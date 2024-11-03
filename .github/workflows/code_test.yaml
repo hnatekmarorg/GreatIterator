@@ -1,0 +1,51 @@
+name: 'Code review'
+
+on:
+  pull_request:
+  pull_request_review_comment:
+    types: [created]
+
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test-linux:
+    runs-on: gha-runner-scale-set
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.17.0'
+          check-latest: 'true'
+      - run: go test
+
+  test-osx:
+    runs-on: macOS
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.17.0'
+          check-latest: 'true'
+      - run: go test
+
+  review-action:
+    runs-on: gha-runner-scale-set
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: coderabbitai/ai-pr-reviewer@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ' ' # Not needed for ollama
+        with:
+          openai_base_url: 'https://ollama.hnatekmar.xyz/v1'
+          openai_heavy_model: 'deepseek-coder-v2:16b'
+          openai_light_model: 'deepseek-coder-v2:16b'
+          debug: false
+          review_simple_changes: true
+          review_comment_lgtm: false
