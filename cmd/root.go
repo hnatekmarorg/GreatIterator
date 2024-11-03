@@ -35,16 +35,27 @@ func init() {
 		if debugEnabled {
 			log.SetLevel(log.DebugLevel)
 		}
+		token, err := rootCmd.Flags().GetString("openai-token")
+		if err != nil {
+			panic(err)
+		}
+		url, err := rootCmd.Flags().GetString("openai-url")
+		if err != nil {
+			panic(err)
+		}
+		log.Debugf("Using following config OPENAI_URL: %s OPENAI_TOKEN: %s", url, token)
 	})
+	usage := "URL for openai can be set from OPENAI_URL environment variable"
 	if openaiURL := os.Getenv("OPENAI_URL"); openaiURL != "" {
-		rootCmd.PersistentFlags().String("openai-url", openaiURL, "URL for openai")
+		rootCmd.PersistentFlags().String("openai-url", openaiURL, usage)
 	} else {
-		rootCmd.PersistentFlags().String("openai-url", "https://api.openai.com/v1", "URL for openai")
+		rootCmd.PersistentFlags().String("openai-url", "https://api.openai.com/v1", usage)
 	}
+	usage = "Token for openai can be set from OPENAI_TOKEN environment variable"
 	if openaiToken := os.Getenv("OPENAI_TOKEN"); openaiToken != "" {
-		rootCmd.PersistentFlags().String("openai-token", openaiToken, "URL for openai")
+		rootCmd.PersistentFlags().StringP("openai-token", "t", openaiToken, usage)
 	} else {
-		rootCmd.PersistentFlags().String("openai-token", "unknown", "URL for openai")
+		rootCmd.PersistentFlags().StringP("openai-token", "t", "unknown", usage)
 	}
-	rootCmd.PersistentFlags().Bool("debug", false, "Print debug logs. WARNING: This could reveal sensitive information use with caution")
+	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Print debug logs. WARNING: This could reveal sensitive information use with caution")
 }
