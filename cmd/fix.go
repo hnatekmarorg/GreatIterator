@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"github.com/tmc/langchaingo/llms"
@@ -12,18 +13,19 @@ var fixCmd = &cobra.Command{
 	Use:   "fix",
 	Short: "Fix action fixes file based on test case and 1 or more files it can change",
 	Long:  `Fix action fixes file based on test case and 1 or more files it can change`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		log.Debug("Initializing openai client")
 		llm, err := GetOpenAIClient(cmd)
 		if err != nil {
-			log.Errorf("Openai client initialization failed. %s", err)
+			return fmt.Errorf("openai client initialization failed. %s", err)
 		}
 		ctx := context.Background()
 		completion, err := llm.Call(ctx, "Example prompt", llms.WithTemperature(0.0))
 		if err != nil {
-			log.Errorf("Invoking openai failed with %s", err)
+			return fmt.Errorf("invoking llm failed with %s", err)
 		}
 		log.Debug(completion)
+		return nil
 	},
 }
 
