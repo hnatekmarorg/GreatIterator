@@ -5,9 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/charmbracelet/log"
+	"github.com/hnatekmarorg/GreatIterator/ai"
 	"github.com/spf13/cobra"
 	"github.com/tmc/langchaingo/llms"
 	"os"
+	"os/exec"
+	"strings"
 )
 
 // checkFiles takes []string and returns true if all paths exists on filesystem
@@ -43,13 +46,34 @@ var fixCmd = &cobra.Command{
 		if err != nil {
 			return fmt.Errorf("openai client initialization failed. %s", err)
 		}
-		ctx := context.Background()
-		completion, err := llm.Call(ctx, "Example prompt", llms.WithTemperature(0.0))
-		if err != nil {
-			return fmt.Errorf("invoking llm failed with %s", err)
+
+		for {
+			ctx := context.Background()
+			cmdArgs := strings.Fields(args[0])
+			testRun := exec.CommandContext(ctx, cmdArgs[0], cmdArgs[1:]...)
+
+			testOut, err := testRun.CombinedOutput()
+
+			if err == nil {
+				log.Print("Testcase passing so it has been fixed!")
+				return nil
+			}
+
+			fixPrompt := ai.GenerateProposedFixesPrompt(args[0], string(testOut), args[1:])
+
+			completion, err := llm.Call(ctx, fixPrompt, llms.WithTemperature(0.0))
+			if err != nil {
+				return err
+			}
+			changeRequest, err := ai.ChangeRequestFromString(completion)
+			if err != nil {
+				return err
+			}
+			changeRequest.Apply()
+			if err != nil {
+				return fmt.Errorf("invoking llm failed with %s", err)
+			}
 		}
-		log.Debug(completion)
-		return nil
 	},
 }
 

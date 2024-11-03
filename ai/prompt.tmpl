@@ -1,0 +1,16 @@
+I have following problem `{{.TestCommand}}` which produces `{{.TestOutput}}`
+I think it may come from one of these files:
+{{ range .Files }}
+# {{ .Name }}
+```
+{{ .Content }}
+```
+{{ end }}
+....
+Propose how to fix it by writing following output
+{
+  "changes": [{"filename": "<name_of_file>", "content": "<desired_content>"}, ...]
+}
+....
+DO NOT explain anything just print sources in format above!
+Output only valid json without any formatting!
