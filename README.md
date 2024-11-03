@@ -29,4 +29,11 @@ In order for it to work you need to provide:
 - test command (that returns 0 on succes and anything else on failure)
 - one or more files that llm will modify
 - access token for openai or openai compatible endpoint
+ 
 For example `GreatIterator fix --openai-token 'sk-...' 'gcc examples/main.c' examples/main.c` will continuously execute `gcc examples/main.c` and change `examples/main.c` until it works
+
+## Ollama
+For ollama you can override `--openai-url` `GreatIterator fix --openai-url 'https://ollama.endpoint.com' 'gcc examples/main.c' examples/main.c`
+
+## Additional settings
+Please see `GreatIterator --help` and `GreatIterator fix --help` for additional settings 
