@@ -24,8 +24,8 @@ Run the project:
 `GreatIterator --help`
 ## Docker
 - clone project
-- `docker built . -t GreatIterator`
-- `docker run -ti GreatIterator --help`
+- `docker build . -t great-iterator`
+- `docker run -ti great-iterator --help`
 
 
 # Fixing files
