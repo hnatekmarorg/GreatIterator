@@ -35,18 +35,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Run Container Action
-        uses: ljy2855/llm_code_reviewer@v1
+      - name: Code Review
+        uses: tomisacat/ai_code_review@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_owner: ${{ github.repository_owner }}
-          github_repository: ${{ github.repository }}
-          pr_number: ${{ github.event.pull_request.number }}
-          pr_title: ${{ github.event.pull_request.title }}
-          pr_body: ${{ github.event.pull_request.body }}
-
-          ollama_api_url: https://ollama.hnatekmar.xyz
-
-          ollama_model: 'codegemma:latest'
-          prompt_type: 'GENERAL_REVIEW'
-          prompt_language: 'EN'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OLLAMA_ADDRESS: 'https://ollama.hnatekmar.xyz'
+          LLM_MODEL: 'deepseek-coder-v2:16b'
