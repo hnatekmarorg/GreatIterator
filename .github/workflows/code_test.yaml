@@ -20,7 +20,7 @@ jobs:
         with:
           go-version: '>=1.17.0'
           check-latest: 'true'
-      - run: go test
+      - run: go test ./...
 
   test-osx:
     runs-on: macOS
@@ -45,7 +45,7 @@ jobs:
         with:
           openai_base_url: 'https://ollama.hnatekmar.xyz/v1'
           openai_heavy_model: 'codellama:34b'
-          openai_light_model: 'codegemma:latest'
+          openai_light_model: 'codegemma:7b'
           debug: false
           review_simple_changes: true
           review_comment_lgtm: false
