@@ -35,9 +35,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Code Review
-        uses: tomisacat/ai_code_review@main
-        with:
+      - uses: coderabbitai/ai-pr-reviewer@latest
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OLLAMA_ADDRESS: 'https://ollama.hnatekmar.xyz'
-          LLM_MODEL: 'deepseek-coder-v2:16b'
+          OPENAI_API_KEY: ' ' # Not needed for ollama
+        with:
+          openai_base_url: 'https://ollama.hnatekmar.xyz/v1'
+          openai_heavy_model: 'deepseek-coder-v2:16b'
+          openai_light_model: 'deepseek-coder-v2:16b'
+          debug: false
+          review_simple_changes: true
+          review_comment_lgtm: false
