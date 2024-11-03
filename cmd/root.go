@@ -57,5 +57,6 @@ func init() {
 	} else {
 		rootCmd.PersistentFlags().StringP("openai-token", "t", "unknown", usage)
 	}
+	rootCmd.PersistentFlags().StringP("base-model", "m", "gpt-4", "Model to use for completions")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Print debug logs. WARNING: This could reveal sensitive information use with caution")
 }
