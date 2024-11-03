@@ -1,16 +1,28 @@
-I have following problem `{{.TestCommand}}` which produces `{{.TestOutput}}`
-I think it may come from one of these files:
+**Problem Description:**
+I have the following problem: `{{.TestCommand}}` produces ```{{.TestOutput}}```. I believe this issue may originate from one of these files:
+
+```
 {{ range .Files }}
-# {{ .Name }}
+**{{ .Name }}**
 ```
 {{ .Content }}
 ```
 {{ end }}
-....
-Propose how to fix it by writing following output
+
+**Task:**
+Propose how to fix the problem by providing the following output in valid JSON format without any additional explanations or formatting:
+
+```json
 {
   "changes": [{"filename": "<name_of_file>", "content": "<desired_content>"}, ...]
 }
-....
-DO NOT explain anything just print sources in format above!
-Output only valid json without any formatting!
+```
+**Example Output:**
+```json
+{
+  "changes": [
+    {"filename": "file1.txt", "content": "new content for file1"},
+    {"filename": "file2.txt", "content": "new content for file2"}
+  ]
+}
+```

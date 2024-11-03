@@ -50,10 +50,11 @@ type Changes struct {
 func initChanges(testCommand string, testOutput string, fileList []string) Changes {
 	changes := Changes{
 		TestCommand: testCommand,
-		Files:       make([]File, len(fileList)),
+		Files:       make([]File, 0),
 		TestOutput:  testOutput,
 	}
 	for _, filename := range fileList {
+		log.Debug("Initial changes", changes.Files)
 		content, err := os.ReadFile(filename)
 		if err != nil {
 			panic(err)
@@ -66,7 +67,6 @@ func initChanges(testCommand string, testOutput string, fileList []string) Chang
 func GenerateProposedFixesPrompt(testCommand string, testOutput string, fileList []string) string {
 	// Call test command and get output
 	changes := initChanges(testCommand, testOutput, fileList)
-	log.Debug("Initial changes", changes.Files)
 	tmpl, err := template.New("prompt").Parse(promptTemplate)
 	if err != nil {
 		panic(err)
@@ -82,7 +82,7 @@ func GenerateProposedFixesPrompt(testCommand string, testOutput string, fileList
 	return proposedFixesPrompt
 }
 
-func ChangeRequestFromString(jsonString string) (ChangesRequest, error) {
+func ParseChangesRequest(jsonString string) (ChangesRequest, error) {
 	var changes ChangesRequest
 	log.Debug("Parsing json: ", jsonString)
 	err := json.Unmarshal([]byte(jsonString), &changes)

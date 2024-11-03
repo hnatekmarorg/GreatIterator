@@ -65,7 +65,7 @@ var fixCmd = &cobra.Command{
 			if err != nil {
 				return err
 			}
-			changeRequest, err := ai.ChangeRequestFromString(completion)
+			changeRequest, err := ai.ParseChangesRequest(completion)
 			if err != nil {
 				return err
 			}
