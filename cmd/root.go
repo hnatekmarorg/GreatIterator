@@ -4,6 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"github.com/charmbracelet/log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -12,16 +13,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "GreatIterator",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Short: "GreatIterator is program for fixing issues via llm based on test cases",
+	Long:  "GreatIterator is program for fixing issues via llm based on test cases",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -34,13 +27,24 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.GreatIterator.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	cobra.OnInitialize(func() {
+		debugEnabled, err := rootCmd.Flags().GetBool("debug")
+		if err != nil {
+			panic(err)
+		}
+		if debugEnabled {
+			log.SetLevel(log.DebugLevel)
+		}
+	})
+	if openaiURL := os.Getenv("OPENAI_URL"); openaiURL != "" {
+		rootCmd.PersistentFlags().String("openai-url", openaiURL, "URL for openai")
+	} else {
+		rootCmd.PersistentFlags().String("openai-url", "https://api.openai.com/v1", "URL for openai")
+	}
+	if openaiToken := os.Getenv("OPENAI_TOKEN"); openaiToken != "" {
+		rootCmd.PersistentFlags().String("openai-token", openaiToken, "URL for openai")
+	} else {
+		rootCmd.PersistentFlags().String("openai-token", "unknown", "URL for openai")
+	}
+	rootCmd.PersistentFlags().Bool("debug", false, "Print debug logs. WARNING: This could reveal sensitive information use with caution")
 }
