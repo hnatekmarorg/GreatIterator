@@ -10,9 +10,12 @@ You can install GreatIterator via go install or by using the provided binary rel
 ## Using go install
 Install the package:
 
-go install github.com/hnatekmarorg/GreatIterator@latest
+`go install github.com/hnatekmarorg/GreatIterator@latest`
+
 Run the project:
+
 `GreatIterator --help`
+
 ## Using Binary Releases
 Download the latest release from the [Releases page](https://github.com/hnatekmarorg/GreatIterator/releases).
 
