@@ -1,0 +1,49 @@
+name: 'Code review'
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test-linux:
+    runs-on: gha-runner-scale-set
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.17.0'
+          check-latest: 'true'
+      - run: go test
+
+  test-osx:
+    runs-on: osx-runner
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.17.0'
+          check-latest: 'true'
+      - run: go test
+
+  review-action:
+    runs-on: gha-runner-scale-set
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Container Action
+        uses: ljy2855/llm_code_reviewer@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_owner: ${{ github.repository_owner }}
+          github_repository: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_body: ${{ github.event.pull_request.body }}
+
+          ollama_api_url: https://ollama.hnatekmar.xyz
+
+          ollama_model: 'codegemma:latest'
+          prompt_type: 'GENERAL_REVIEW'
+          prompt_language: 'EN'
