@@ -1,5 +1,10 @@
+/*
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+*/
 package main
 
+import "github.com/hnatekmarorg/GreatIterator/cmd"
+
 func main() {
-	println("First iteration")
+	cmd.Execute()
 }
