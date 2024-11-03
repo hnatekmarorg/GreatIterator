@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
-
   build:
     runs-on: gha-runner-scale-set
     strategy:
