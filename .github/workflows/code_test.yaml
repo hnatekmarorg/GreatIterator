@@ -31,7 +31,7 @@ jobs:
         with:
           go-version: '>=1.17.0'
           check-latest: 'true'
-      - run: go test
+      - run: go test ./...
 
   review-action:
     runs-on: gha-runner-scale-set
@@ -44,7 +44,7 @@ jobs:
           OPENAI_API_KEY: ' ' # Not needed for ollama
         with:
           openai_base_url: 'https://ollama.hnatekmar.xyz/v1'
-          openai_heavy_model: 'deepseek-coder-v2:16b'
+          openai_heavy_model: 'codestral:22b'
           openai_light_model: 'deepseek-coder-v2:16b'
           debug: false
           review_simple_changes: true
