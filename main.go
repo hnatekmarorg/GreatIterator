@@ -3,8 +3,8 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/hnatekmarorg/GreatIterator/cmd"
+import "github.com/hnatekmarorg/GreatIterator/commands"
 
 func main() {
-	cmd.Execute()
+	commands.Execute()
 }
