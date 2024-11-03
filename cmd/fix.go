@@ -1,12 +1,8 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // fixCmd represents the fix command
@@ -15,20 +11,20 @@ var fixCmd = &cobra.Command{
 	Short: "Fix action fixes file based on test case and 1 or more files it can change",
 	Long:  `Fix action fixes file based on test case and 1 or more files it can change`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("fix called")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(fixCmd)
+	if openaiURL := os.Getenv("OPENAI_URL"); openaiURL != "" {
+		fixCmd.Flags().String("openai-url", openaiURL, "URL for openai")
+	} else {
+		fixCmd.Flags().String("openai-url", "https://api.openai.com/v1", "URL for openai")
+	}
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// fixCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// fixCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	if openaiToken := os.Getenv("OPENAI_TOKEN"); openaiToken != "" {
+		fixCmd.Flags().String("openai-token", openaiToken, "URL for openai")
+	} else {
+		fixCmd.Flags().String("openai-token", "unkown", "URL for openai")
+	}
 }
