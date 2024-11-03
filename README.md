@@ -5,16 +5,15 @@ Iterates on problems via LLM until it finishes.
 GreatIterator is a Go project designed to iterate on problems using a Language Model (LLM) until the problem is resolved. This project is primarily written in Go and includes a Dockerfile for containerization.
 
 # Installation
-You can install GreatIterator via go install or by using the provided binary releases.
+You can install GreatIterator via go install or by using the provided binary releases or docker.
 
-Using go install
+## Using go install
 Install the package:
 
 go install github.com/hnatekmarorg/GreatIterator@latest
 Run the project:
-
 `GreatIterator --help`
-Using Binary Releases
+## Using Binary Releases
 Download the latest release from the [Releases page](https://github.com/hnatekmarorg/GreatIterator/releases).
 
 Extract the binary and move it to your PATH:
@@ -23,6 +22,11 @@ Extract the binary and move it to your PATH:
 Run the project:
 
 `GreatIterator --help`
+## Docker
+- clone project
+- `docker built . -t GreatIterator`
+- `docker run -ti GreatIterator --help`
+
 
 # Fixing files
 In order for it to work you need to provide:
