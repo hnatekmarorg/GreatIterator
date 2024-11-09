@@ -21,7 +21,7 @@ You can install GreatIterator using one of the following methods:
 ### Using Binary Releases
 
 1. Download the latest release from the [Releases page](https://github.com/hnatekmarorg/GreatIterator/releases).
-2. Extract the binary and move it to your PATH: `mv GreatIterator /usr/local/bin/`
+2. Extract the binary and move it to your PATH: for example on linux `mv GreatIterator /usr/local/bin/`
 3. Run the project: `GreatIterator --help`
 
 ### Using Docker
