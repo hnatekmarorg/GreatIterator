@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/hnatekmarorg/GreatIterator/ai"
+	"github.com/kballard/go-shellquote"
 	"github.com/spf13/cobra"
 	"github.com/tmc/langchaingo/llms"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 // checkFiles takes []string and returns true if all paths exists on filesystem
@@ -49,11 +49,15 @@ var fixCmd = &cobra.Command{
 
 		for {
 			ctx := context.Background()
-			cmdArgs := strings.Fields(args[0])
+			cmdArgs, err := shellquote.Split(args[0])
+			if err != nil {
+				return err
+			}
+			log.Debug("Running ", args[0])
 			testRun := exec.CommandContext(ctx, cmdArgs[0], cmdArgs[1:]...)
 
 			testOut, err := testRun.CombinedOutput()
-
+			log.Debug(string(testOut))
 			if err == nil {
 				log.Print("Testcase passing so it has been fixed!")
 				return nil
