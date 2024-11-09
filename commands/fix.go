@@ -69,6 +69,10 @@ var fixCmd = &cobra.Command{
 			if err != nil {
 				return err
 			}
+			if value, err := cmd.Flags().GetBool("dry-run"); err == nil && value {
+				log.Info("Would create following change ", changeRequest.Changes)
+				return nil
+			}
 			changeRequest.Apply()
 			if err != nil {
 				return fmt.Errorf("invoking llm failed with %s", err)
