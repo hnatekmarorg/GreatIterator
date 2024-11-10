@@ -77,7 +77,7 @@ var fixCmd = &cobra.Command{
 				log.Info("Would create following change ", changeRequest.Changes)
 				return nil
 			}
-			changeRequest.Apply()
+			changeRequest.Apply(args[1:])
 			if err != nil {
 				return fmt.Errorf("invoking llm failed with %s", err)
 			}

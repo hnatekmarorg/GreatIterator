@@ -7,6 +7,8 @@ import (
 	"github.com/charmbracelet/log"
 	"html/template"
 	"os"
+	"path/filepath"
+	"slices"
 )
 
 //go:embed prompt.tmpl
@@ -26,9 +28,21 @@ type ChangesRequest struct {
 	} `json:"changes"`
 }
 
-func (changeRequest ChangesRequest) Apply() {
+func (changeRequest ChangesRequest) Apply(allowedFiles []string) {
+	for i := range allowedFiles {
+		absPath, err := filepath.Abs(allowedFiles[i])
+		if err != nil {
+			log.Errorf("couldn't convert %s to absolute path", allowedFiles[i])
+		}
+		allowedFiles[i] = absPath
+	}
 	for _, change := range changeRequest.Changes {
-		err := os.WriteFile(change.Filename, []byte(change.Content), 0644)
+		absPath, err := filepath.Abs(change.Filename)
+		if err != nil || !slices.Contains(allowedFiles, absPath) {
+			log.Debugf("Skipping %s", change.Filename)
+			continue
+		}
+		err = os.WriteFile(change.Filename, []byte(change.Content), 0644)
 		if err != nil {
 			log.Error("Failed to write file", "error", err)
 		}
