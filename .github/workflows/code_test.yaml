@@ -13,8 +13,6 @@ permissions:
 jobs:
   test-windows:
     runs-on: windows-dind
-    container:
-      image: golang:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +20,7 @@ jobs:
         with:
           go-version: '>=1.17.0'
           check-latest: 'true'
-      - run: go test ./...
+      - run: go test ./...  
   test-linux:
     runs-on: gha-runner-scale-set
     steps:
