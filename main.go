@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+Copyright © 2024 Martin Hnatek <m.hnatma@gmail.com>
 */
 package main
 
