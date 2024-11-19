@@ -52,11 +52,12 @@ func init() {
 		rootCmd.PersistentFlags().String("openai-url", "https://api.openai.com/v1", usage)
 	}
 	usage = "Token for openai can be set from OPENAI_TOKEN environment variable"
+	/*
 	if openaiToken := os.Getenv("OPENAI_TOKEN"); openaiToken != "" {
 		rootCmd.PersistentFlags().StringP("openai-token", "t", openaiToken, usage)
 	} else {
 		rootCmd.PersistentFlags().StringP("openai-token", "t", "unknown", usage)
-	}
+	}*/
 	rootCmd.PersistentFlags().StringP("base-model", "m", "gpt-4", "Model to use for completions")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Print debug logs. WARNING: This could reveal sensitive information use with caution")
 }
