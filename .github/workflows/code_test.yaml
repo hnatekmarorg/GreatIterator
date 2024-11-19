@@ -54,8 +54,8 @@ jobs:
           OPENAI_API_KEY: ' ' # Not needed for ollama
         with:
           openai_base_url: 'https://ollama.hnatekmar.xyz/v1'
-          openai_heavy_model: 'llama3:70b-instruct-q3_K_M'
-          openai_light_model: 'codestral:22b-v0.1-q8_0'
+          openai_heavy_model: 'qwen2.5-coder:32b-instruct-q4_1'
+          openai_light_model: 'qwen2.5-coder:7b'
           debug: false
           review_simple_changes: true
           review_comment_lgtm: false
